@@ -106,7 +106,8 @@ class IrcBot extends Adapter
         user.room = null
         console.log "msg <#{from}> #{message}"
 
-      self.receive new Robot.TextMessage(user, message)
+      if user.room or not (process.env.HUBOT_IRC_CHANONLY?)
+        self.receive new Robot.TextMessage(user, message)
 
     bot.addListener 'error', (message) ->
         console.error('ERROR: %s: %s', message.command, message.args.join(' '))
